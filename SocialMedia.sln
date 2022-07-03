@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32228.343
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedSocial", "RedSocial\RedSocial.csproj", "{6EB377DE-A027-4E9C-A90F-0F02887D9788}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{85C009A9-C561-4281-85EF-5F4507B353C8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{3C6AE809-E2D8-43B5-8B1A-50DD8CB00140}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{084CB33C-0BBE-43A7-ABC4-026988D31C2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Persistence", "Infrastructure.Persistence\Infrastructure.Persistence.csproj", "{599F4DF0-7D2D-46C6-A7C6-649007A8EC6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Domain", "Core.Domain\Core.Domain.csproj", "{DDF31CC8-8D20-431C-8581-01B29F0C3AF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Application", "Core.Application\Core.Application.csproj", "{1851A9E0-5E46-4606-85D9-4B75BA163FAB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6EB377DE-A027-4E9C-A90F-0F02887D9788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EB377DE-A027-4E9C-A90F-0F02887D9788}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EB377DE-A027-4E9C-A90F-0F02887D9788}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EB377DE-A027-4E9C-A90F-0F02887D9788}.Release|Any CPU.Build.0 = Release|Any CPU
+		{599F4DF0-7D2D-46C6-A7C6-649007A8EC6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{599F4DF0-7D2D-46C6-A7C6-649007A8EC6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{599F4DF0-7D2D-46C6-A7C6-649007A8EC6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{599F4DF0-7D2D-46C6-A7C6-649007A8EC6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDF31CC8-8D20-431C-8581-01B29F0C3AF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDF31CC8-8D20-431C-8581-01B29F0C3AF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDF31CC8-8D20-431C-8581-01B29F0C3AF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDF31CC8-8D20-431C-8581-01B29F0C3AF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1851A9E0-5E46-4606-85D9-4B75BA163FAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1851A9E0-5E46-4606-85D9-4B75BA163FAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1851A9E0-5E46-4606-85D9-4B75BA163FAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1851A9E0-5E46-4606-85D9-4B75BA163FAB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6EB377DE-A027-4E9C-A90F-0F02887D9788} = {85C009A9-C561-4281-85EF-5F4507B353C8}
+		{599F4DF0-7D2D-46C6-A7C6-649007A8EC6C} = {084CB33C-0BBE-43A7-ABC4-026988D31C2B}
+		{DDF31CC8-8D20-431C-8581-01B29F0C3AF2} = {3C6AE809-E2D8-43B5-8B1A-50DD8CB00140}
+		{1851A9E0-5E46-4606-85D9-4B75BA163FAB} = {3C6AE809-E2D8-43B5-8B1A-50DD8CB00140}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {758E4107-B0DB-45A6-915E-9C08CF01527D}
+	EndGlobalSection
+EndGlobal
