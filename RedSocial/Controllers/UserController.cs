@@ -8,6 +8,8 @@ using Core.Application.Helpers;
 using System.Threading.Tasks;
 using RedSocial.Middleware;
 using Core.Domain.Entities;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace RedSocial.Controllers
 {
@@ -15,10 +17,13 @@ namespace RedSocial.Controllers
     {
         private readonly IUserService _userService;
         private readonly ValidateSession _validateSession;
-        public UserController(IUserService userService,ValidateSession validateSession)
+        private readonly UploadImages _upload;
+
+        public UserController(IUserService userService, ValidateSession validateSession)
         {
             _userService = userService;
             _validateSession = validateSession;
+            _upload = new();
         }
         public IActionResult Index(string message)
         {
@@ -68,7 +73,12 @@ namespace RedSocial.Controllers
                 return View(saveViewModel);
 
             }
-            await _userService.Add(saveViewModel);
+            UserSaveViewModel userSaveView = await _userService.Add(saveViewModel);
+            if (userSaveView != null && userSaveView.Id != 0)
+            {
+                userSaveView.ProfilePicture = _upload.UploadImage(saveViewModel.PictureFile, userSaveView.Id,"Profiles");
+                await _userService.Update(userSaveView, userSaveView.Id);
+            }
             return RedirectToRoute(new { controller = "User", action = "Index" });
         } 
         public IActionResult LogOut()

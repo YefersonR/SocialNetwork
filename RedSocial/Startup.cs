@@ -35,6 +35,7 @@ namespace RedSocial
             
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ValidateSession, ValidateSession>();
+            
 
         }
 

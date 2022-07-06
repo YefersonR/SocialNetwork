@@ -19,10 +19,10 @@ namespace Infrastructure.Persistence.Repositories
         {
             _mediaContext = mediaContext;
         }
-        public override async Task Add(User user)
+        public override async Task<User> Add(User user)
         {
             user.Password = PasswordEncrytion.Encriptation(user.Password);
-            await base.Add(user);
+            return await base.Add(user);
         }
         public async Task<User> Login(LoginViewModel login)
         {

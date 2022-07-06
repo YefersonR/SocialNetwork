@@ -21,7 +21,6 @@ namespace Core.Application.ViewModels.User
         [DataType(DataType.Text)]
         public string Phone { get; set; }
         public string ProfilePicture { get; set; }
-        [Required(ErrorMessage = "Debe añadir una imagen de perfil para el usuario")]
         [DataType(DataType.Upload)]
         public IFormFile PictureFile { get; set; }
         [Required(ErrorMessage = "Debe ingresar el e-mail del usuario")]

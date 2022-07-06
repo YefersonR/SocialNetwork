@@ -16,14 +16,15 @@ namespace Infrastructure.Persistence.Repositories
         {
             _mediaContext = mediaContext;
         }
-        public virtual async Task Add(T type)
+        public virtual async Task<T> Add(T type)
         {
             await _mediaContext.Set<T>().AddAsync(type);
             await _mediaContext.SaveChangesAsync();
+            return type;
         }
         public virtual async Task Update(T Type, int id)
         {
-            var entry = _mediaContext.Set<T>().FindAsync(id);
+            var entry = await _mediaContext.Set<T>().FindAsync(id);
             _mediaContext.Entry(entry).CurrentValues.SetValues(Type);
             await _mediaContext.SaveChangesAsync();
         }

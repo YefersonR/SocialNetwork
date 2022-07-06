@@ -22,7 +22,7 @@ namespace Core.Application.Services
             _genericRepository = genericRepository;
             _mapper = mapper;
         }
-        public virtual async Task Add(SaveViewModel type)
+        public virtual async Task<SaveViewModel> Add(SaveViewModel type)
         {
 
             T entity = _mapper.Map<T>(type);
@@ -30,7 +30,7 @@ namespace Core.Application.Services
             await _genericRepository.Add(entity);
 
             SaveViewModel viewModel = _mapper.Map<SaveViewModel>(entity);
-
+            return viewModel;
         }
 
         public virtual async Task Delete(int id)

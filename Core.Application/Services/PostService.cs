@@ -28,7 +28,7 @@ namespace Core.Application.Services
             _httpContext = httpContext;
             user = _httpContext.HttpContext.Session.Get<UserViewModel>("user");
         }
-        public override Task Add(PostSaveViewModel type)
+        public override Task<PostSaveViewModel> Add(PostSaveViewModel type)
         {
             type.UserId = user.Id;
             return base.Add(type);
