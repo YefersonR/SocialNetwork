@@ -1,7 +1,22 @@
-﻿
+﻿@using Core.Application.ViewModels.User
+@model LoginViewModel
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="container-fluid">
+    @TempData["mydata"]
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    <form method="post" asp-controller="User" asp-action="Index">
+        <div class="mb-3">
+            <label for="" class="form-label">UserName</label>
+            <input class="form-control" asp-for="UserName" placeholder="Type to search...">
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">Password</label>
+            <input class="form-control" asp-for="Password" placeholder="Type to search...">
+        </div>
+        <button class="btn btn-primary">Log in</button>
 
+    </form>
+</div>

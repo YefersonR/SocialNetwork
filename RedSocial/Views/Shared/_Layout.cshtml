@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http; 
+@using Core.Application.Helpers;
+@using Core.Application.ViewModels.User;
+
+@inject IHttpContextAccessor httpContext;
+@{ 
+    UserViewModel userViewModel = httpContext.HttpContext.Session.Get<UserViewModel>("user");
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -9,26 +17,44 @@
 </head>
 <body>
     <header>
+
         <nav class="navbar navbar-expand-sm  w-100 navbar-toggleable-sm navbar-light bg-info border-bottom box-shadow mb-3">
             <div class="container d-flex justify-content-between">
-                <a class="navbar-brand text-white" asp-controller="Home" asp-action="Index"> RedSocial</a>
+                <a class="navbar-brand text-white" asp-controller="@(User != null ? "Home" : "User")" asp-action="Index"> RedSocial</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Friends" asp-action="Index">Friends</a>
-                        </li>
-                    </ul>
+
+                @if (userViewModel == null)
+                {
+
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-controller="User" asp-action="Register">Registrarme</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                }
+                else
+                {
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="User" asp-action="Friends">Friends</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <form>
+                        <input class="form-control " type="text" placeholder="Search friends" />
+                    </form>
+                }
                 </div>
-                <form >
-                    <input class="form-control " type="text" placeholder="Search friends" />
-                </form>
-            </div>
-        </nav>
-    </header>
+            </nav>
+
+            </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

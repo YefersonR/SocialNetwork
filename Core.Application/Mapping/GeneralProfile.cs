@@ -21,14 +21,27 @@ namespace Core.Application.Mapping
                 .ForMember(comment => comment.CreatedBy, opt => opt.Ignore())
                 .ForMember(comment => comment.Updated, opt => opt.Ignore())
                 .ForMember(comment => comment.UpdatedBy, opt => opt.Ignore());
-            
+            CreateMap<Comment, CommentSaveViewModel>()
+                .ReverseMap()
+                .ForMember(comment => comment.Created, opt => opt.Ignore())
+                .ForMember(comment => comment.CreatedBy, opt => opt.Ignore())
+                .ForMember(comment => comment.Updated, opt => opt.Ignore())
+                .ForMember(comment => comment.UpdatedBy, opt => opt.Ignore());
+
             CreateMap<Post, PostViewModel>()
                 .ReverseMap()
                 .ForMember(comment => comment.Created, opt => opt.Ignore())
                 .ForMember(comment => comment.CreatedBy, opt => opt.Ignore())
                 .ForMember(comment => comment.Updated, opt => opt.Ignore())
                 .ForMember(comment => comment.UpdatedBy, opt => opt.Ignore());
-            
+
+            CreateMap<Post, PostSaveViewModel>()
+                .ReverseMap()
+                .ForMember(comment => comment.Created, opt => opt.Ignore())
+                .ForMember(comment => comment.CreatedBy, opt => opt.Ignore())
+                .ForMember(comment => comment.Updated, opt => opt.Ignore())
+                .ForMember(comment => comment.UpdatedBy, opt => opt.Ignore());
+
             CreateMap<User, UserViewModel>()
                 .ReverseMap()
                 .ForMember(comment => comment.Created, opt => opt.Ignore())
@@ -36,6 +49,13 @@ namespace Core.Application.Mapping
                 .ForMember(comment => comment.Updated, opt => opt.Ignore())
                 .ForMember(comment => comment.UpdatedBy, opt => opt.Ignore());
 
+
+            CreateMap<User, UserSaveViewModel>()
+                .ReverseMap()
+                .ForMember(comment => comment.Created, opt => opt.Ignore())
+                .ForMember(comment => comment.CreatedBy, opt => opt.Ignore())
+                .ForMember(comment => comment.Updated, opt => opt.Ignore())
+                .ForMember(comment => comment.UpdatedBy, opt => opt.Ignore());
 
         }
     }

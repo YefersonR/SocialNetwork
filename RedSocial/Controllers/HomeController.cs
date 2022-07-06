@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RedSocial.Middleware;
 using RedSocial.Models;
 using System;
 using System.Collections.Generic;
@@ -11,16 +12,32 @@ namespace RedSocial.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ValidateSession _validateSession;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ValidateSession validateSession)
         {
-            _logger = logger;
+            _validateSession = validateSession;
         }
 
         public IActionResult Index()
         {
-            return View();
+            if (_validateSession.HasUser())
+            {
+                return View();
+
+            }
+            TempData["mydata"] = "No tiene acesso";
+            return RedirectToRoute(new { controller = "User", action = "Index"});
+        }
+        public IActionResult Friends()
+        {
+            if (_validateSession.HasUser())
+            {
+                return View();
+
+            }
+            TempData["mydata"] = "No tiene acesso";
+            return RedirectToRoute(new { controller = "User", action = "Index" });
         }
     }
 }

@@ -16,13 +16,13 @@ namespace Core.Domain.Entities
         public string  Mail { get; set; }
         public string  UserName { get; set; }
         public string Password { get; set; }
-
+        /*
         public ICollection<Post> Posts { get; set; }
         public virtual ICollection<User> Friend { get; set; }
         public virtual ICollection<User> FriendOf { get; set; }
 
         public ICollection<Comment> Comments{ get; set; }
-
+        */
 
     }
 }

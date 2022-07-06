@@ -9,5 +9,6 @@ namespace Core.Application.Interfaces.Services
 {
     public interface IPostServices : IGenericService<PostSaveViewModel,PostViewModel>
     {
+        Task<List<PostViewModel>> GetAllViewModelWithInclude();
     }
 }

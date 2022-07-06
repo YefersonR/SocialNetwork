@@ -20,5 +20,31 @@ namespace Core.Application.Services
             _userRepository = userRepository;
             _mapper = mapper;
         }
+        public async Task<UserViewModel> Login(LoginViewModel loginViewModel)
+        {
+            User user = await _userRepository.Login(loginViewModel);
+            if(user == null)
+            {
+                return null;
+            }
+            UserViewModel userView = _mapper.Map<UserViewModel>(user);
+
+            return userView;
+        }
+        public async Task<List<UserViewModel>> SearchFriend(SearchFriendViewModel searchViewModel)
+        {
+            var list = await _userRepository.GetAll();
+            return list.Where(user => user.UserName == searchViewModel.userName).Select(user => new UserViewModel
+            {
+                Name = user.Name,
+                LastName =user.LastName,
+                Phone = user.Phone,
+                ProfilePicture = user.ProfilePicture,
+                Mail = user.Mail,
+                UserName = user.UserName,
+                Password = user.Password
+
+            }).ToList();
+        }
     }
 }

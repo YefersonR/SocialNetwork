@@ -1,4 +1,5 @@
-﻿using Core.Domain.Entities;
+﻿using Core.Application.ViewModels.User;
+using Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Core.Application.Interfaces.Repositories
 {
     public interface IUserRepository : IGenericRepository<User>
     {
-
+        Task<User> Login(LoginViewModel login);
     }
 }

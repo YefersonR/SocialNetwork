@@ -33,6 +33,17 @@ namespace Infrastructure.Persistence.Repositories
             return await _mediaContext.Set<T>().ToListAsync();            
         }
 
+        public virtual async Task<List<T>> GetAllWithInclude(List<string> propierties)
+        {
+            var query = _mediaContext.Set<T>().AsQueryable();
+            foreach (string propierty in propierties)
+            {
+                query = query.Include(propierty);
+            }
+            
+            return await query.ToListAsync();
+        }
+
         public virtual async Task<T> GetById(int id)
         {
             return await _mediaContext.Set<T>().FindAsync(id);

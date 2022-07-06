@@ -1,0 +1,59 @@
+﻿@using Core.Application.ViewModels.User
+@model UserSaveViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+<div class="container-fluid">
+    <form method="post" asp-controller="User" asp-action="Register">
+        <div class="mb-3">
+            <span asp-validation-for="Name" />
+            <label for="" class="form-label">Name</label>
+            <input class="form-control" asp-for="Name" placeholder="Type to search...">
+        </div>
+        <div class="mb-3">
+            <span asp-validation-for="LastName" />
+            <label for="" class="form-label">LastName</label>
+            <input class="form-control" asp-for="LastName" placeholder="Type to search...">
+        </div>
+        <div class="mb-3">
+            <span asp-validation-for="Phone" />
+
+            <label for="" class="form-label">Phone</label>
+            <input class="form-control" asp-for="Phone" placeholder="Type to search...">
+        </div>
+        <div class="mb-3">
+            <span asp-validation-for="ProfilePicture" />
+
+            <label for="" class="form-label">ProfilePicture</label>
+            <input type="file" class="form-control" asp-for="PictureFile">
+        </div>
+        <div class="mb-3">
+            <span asp-validation-for="Mail" />
+
+            <label for="" class="form-label">Mail</label>
+            <input class="form-control" asp-for="Mail" placeholder="Type to search...">
+        </div>
+        <div class="mb-3">
+            <span asp-validation-for="UserName" />
+
+            <label for="" class="form-label">UserName</label>
+            <input class="form-control" asp-for="UserName" placeholder="Type to search...">
+        </div>
+        <div class="mb-3">
+            <span asp-validation-for="Password" />
+
+            <label for="" class="form-label">Password</label>
+            <input class="form-control" asp-for="Password" placeholder="Type to search...">
+        </div>
+        <div class="mb-3">
+            <span asp-validation-for="ConfirmPassword" />
+
+            <label for="" class="form-label">Confirm Password</label>
+            <input class="form-control" asp-for="ConfirmPassword" placeholder="Type to search...">
+        </div>
+
+        <button class="btn btn-primary">Register</button>
+        <button class="btn btn-warning">Back</button>
+    </form>
+
+</div>
