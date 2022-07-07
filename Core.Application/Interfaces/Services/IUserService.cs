@@ -11,6 +11,7 @@ namespace Core.Application.Interfaces.Services
     public interface IUserService : IGenericService<UserSaveViewModel,UserViewModel>
     {
         Task<UserViewModel> Login(LoginViewModel loginViewModel);
+        Task ConfirmMail(UserSaveViewModel userVm);
         Task<List<UserViewModel>> SearchFriend(SearchFriendViewModel searchViewModel);
     }
 }

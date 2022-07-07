@@ -28,20 +28,33 @@ namespace Core.Application.Services
             _httpContext = httpContext;
             user = _httpContext.HttpContext.Session.Get<UserViewModel>("user");
         }
-        public override Task<PostSaveViewModel> Add(PostSaveViewModel type)
+        public override async Task<PostSaveViewModel> Add(PostSaveViewModel type)
         {
             type.UserId = user.Id;
-            return base.Add(type);
+            return await base.Add(type);
         }
+        public virtual async Task<List<PostViewModel>> GetAllFriendsViewModels()
+        {
+            List<Post> post = await _postRepository.GetAllWithInclude(new List<string> { "User" });
+            post = post.Where(post=>post.UserId != user.Id).OrderBy(post => post.Created).ToList();
+            List<PostViewModel> viewModels = _mapper.Map<List<PostViewModel>>(post);
+            return viewModels;
+        
+        }
+
+
         public async Task<List<PostViewModel>> GetAllViewModelWithInclude()
         {
-            List<Post> list = await _postRepository.GetAllWithInclude(new List<string> { "" });
-            return list.Select(post => new PostViewModel
+            
+            List<Post> list = await _postRepository.GetAllWithInclude(new List<string> { "User" });
+            return list.Where(post => post.UserId == user.Id).OrderBy(post => post.Created).Select(post => new PostViewModel
             {
-               UserId = post.UserId,
-               Content = post.Content,
+                Id = post.Id,
+                UserId = post.UserId,
+                Content = post.Content,
+                postImg = post.postImg,
+                User = user,
 
-                
             }).ToList();
         }
     }

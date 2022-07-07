@@ -13,9 +13,9 @@ namespace Infrastructure.Persistence.Contexts
     public class SocialMediaContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-       /*
         public DbSet<Post> Posts { get; set; }
         public  DbSet<Comment> Comments { get; set; }
+       /*
         public DbSet<Friends> Friends{ get; set; }
         */
         public SocialMediaContext(DbContextOptions options) : base(options) { }
@@ -41,25 +41,28 @@ namespace Infrastructure.Persistence.Contexts
         {
             #region
             modelBuilder.Entity<User>().ToTable("Users");
-            /*
             modelBuilder.Entity<Post>().ToTable("Posts");
             modelBuilder.Entity<Comment>().ToTable("Comments");
+            /*
             modelBuilder.Entity<Friends>().ToTable("Friends");
             */
             #endregion
-            /*
             #region Primary Key
             modelBuilder.Entity<User>().HasKey(user => user.Id);
             modelBuilder.Entity<Post>().HasKey(post => post.Id);
             modelBuilder.Entity<Comment>().HasKey(comment => comment.Id);
+            /*
+            */
             #endregion
             #region Relationship
-
             #region Post
+
             modelBuilder.Entity<Post>()
                 .HasMany<Comment>(post => post.Comments)
                 .WithOne(comment => comment.Post)
-                .HasForeignKey(comment => comment.IdPost);
+                .HasForeignKey(comment => comment.IdPost)
+                .OnDelete(DeleteBehavior.Cascade);
+                
             #endregion
             #region User
             modelBuilder.Entity<User>()
@@ -67,19 +70,21 @@ namespace Infrastructure.Persistence.Contexts
                 .WithOne(post => post.User)
                 .HasForeignKey(post => post.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<User>()
-                .HasMany<Comment>(user => user.Comments)
-                .WithOne(comment => comment.User)
-                .HasForeignKey(comment => comment.IdUser);
 
+            //modelBuilder.Entity<User>()
+            //    .HasMany<Comment>(user => user.Comments)
+            //    .WithOne(comment => comment.User)
+            //    .HasForeignKey(comment => comment.IdUser);
+
+           /*
             //modelBuilder.Entity<User>()
             //    .HasMany(user => user.Friend)
             //    .WithMany(user => user.FriendOf);
                
+                */   
 
             #endregion
             #endregion
-                */   
         }
 
     }

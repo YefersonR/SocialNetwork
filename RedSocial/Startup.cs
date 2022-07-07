@@ -1,6 +1,7 @@
 using Core.Application;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Contexts;
+using Infrastructure.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -32,7 +33,8 @@ namespace RedSocial
             services.AddControllersWithViews();
             services.AddApplicationLayer(Configuration);
             services.AddRepositories(Configuration);
-            
+            services.AddShareInfrastructure(Configuration);
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ValidateSession, ValidateSession>();
             

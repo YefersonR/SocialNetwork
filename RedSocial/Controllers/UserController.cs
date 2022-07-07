@@ -81,6 +81,13 @@ namespace RedSocial.Controllers
             }
             return RedirectToRoute(new { controller = "User", action = "Index" });
         } 
+        public async Task<IActionResult> ConfirmUser(int id)
+        {
+              UserSaveViewModel user = await _userService.GetById(id);
+              await _userService.ConfirmMail(user);
+             return RedirectToRoute(new { controller = "User", action = "Index" });
+
+        }
         public IActionResult LogOut()
         {
             HttpContext.Session.Remove("user");

@@ -5,50 +5,49 @@
 }
 <div class="container-fluid">
     <form method="post" enctype="multipart/form-data" asp-controller="User" asp-action="Register">
+            <span asp-validation-for="Name" class="text-danger"></span>
         <div class="mb-3">
-            <span asp-validation-for="Name" />
-            <label for="" class="form-label">Name</label>
+            <label asp-for="Name" class="form-label">Name</label>
             <input class="form-control" asp-for="Name" placeholder="Type to search...">
         </div>
+            <span asp-validation-for="LastName" class="text-danger"></span>
         <div class="mb-3">
-            <span asp-validation-for="LastName" />
-            <label for="" class="form-label">LastName</label>
+            <label asp-for="LastName" class="form-label">LastName</label>
             <input class="form-control" asp-for="LastName" placeholder="Type to search...">
         </div>
+            <span asp-validation-for="Phone" class="text-danger"></span>
         <div class="mb-3">
-            <span asp-validation-for="Phone" />
 
-            <label for="" class="form-label">Phone</label>
+            <label asp-for="Phone" class="form-label">Phone</label>
             <input class="form-control" asp-for="Phone" placeholder="Type to search...">
         </div>
+            <span asp-validation-for="PictureFile" class="text-danger"></span>
         <div class="mb-3">
-            <span asp-validation-for="PictureFile" />
-
-            <label for="" class="form-label">ProfilePicture</label>
-            <input type="file" class="form-control" asp-for="PictureFile">
+            <label asp-for="PictureFile" class="form-label">ProfilePicture</label>
+            <input  class="form-control" asp-for="PictureFile">
         </div>
+            <span asp-validation-for="Mail" class="text-danger"></span>
         <div class="mb-3">
-            <span asp-validation-for="Mail" />
 
-            <label for="" class="form-label">Mail</label>
+            <label asp-for="Mail" class="form-label">Mail</label>
             <input class="form-control" asp-for="Mail" placeholder="Type to search...">
         </div>
+            <span asp-validation-for="UserName" class="text-danger"></span>
         <div class="mb-3">
-            <span asp-validation-for="UserName" />
 
-            <label for="" class="form-label">UserName</label>
+            <label asp-for="UserName" class="form-label">UserName</label>
             <input class="form-control" asp-for="UserName" placeholder="Type to search...">
         </div>
+            <span asp-validation-for="Password" class="text-danger"></span>
         <div class="mb-3">
-            <span asp-validation-for="Password" />
 
-            <label for="" class="form-label">Password</label>
+            <label asp-for="Password" class="form-label">Password</label>
             <input class="form-control" asp-for="Password" placeholder="Type to search...">
         </div>
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
         <div class="mb-3">
-            <span asp-validation-for="ConfirmPassword" />
 
-            <label for="" class="form-label">Confirm Password</label>
+            <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
             <input class="form-control" asp-for="ConfirmPassword" placeholder="Type to search...">
         </div>
 

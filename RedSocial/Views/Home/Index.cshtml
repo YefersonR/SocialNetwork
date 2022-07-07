@@ -1,27 +1,78 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http;
+@using Core.Application.Helpers;
+@using Core.Application.ViewModels.User;
+@using Core.Application.ViewModels.Post;
+@using Core.Application.ViewModels.Comment
+@using Core.Application.ViewModels;
+
+@inject IHttpContextAccessor httpContext;
+@model HomeViewModel
+@{
+    UserViewModel user = httpContext.HttpContext.Session.Get<UserViewModel>("user");
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center w-50 d-block m-auto">
-      
-    <form class="form-floating position-relative " style="margin-bottom:80px;">
-        <textarea class="form-control" rows="10" placeholder="What's Happening?" style="height: 100px; resize: none;"></textarea>
-        <input type="file" class="primary position-absolute w-50 end-50 mt-2" />
-        <button class="btn btn-primary position-absolute w-25 end-0 mt-2">Post</button>
-    </form>
+    @if (user.IsActiveUser)
+    {
 
-    <div class="card " >
-        <div class="card-header">
-            <div class="float-start">
-                <img src="fsfsd" />
-                Quote - Quore2
-            </div>
+        <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="CreatePost" class="form-floating position-relative " style="margin-bottom:80px;">
+            <textarea asp-for="@Model.postSaveViewModel.Content" class="form-control" rows="10" placeholder="What's Happening?" style="height: 100px; resize: none;"></textarea>
+            <input asp-for="@Model.postSaveViewModel.File" class="primary position-absolute w-50 end-50 mt-2" />
+            <span asp-validation-for="@Model.postSaveViewModel.Content"></span>
+            <button class="btn btn-primary position-absolute w-25 end-0 mt-2">Post</button>
+        </form>
+
+        <div class="text-center d-block m-auto">
+            @foreach (PostViewModel post in Model.postViewModels)
+            {
+                <div class="card m-4">
+                    <div class="card-header">
+                        <div class="float-start">
+                            <img src="@post.User.ProfilePicture" style="width:40px;height:40px;border-radius:50%;" />
+                            @post.User.UserName - @post.User.Name @post.User.LastName
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <blockquote class="blockquote">
+                            <p>@post.Content </p>
+
+                            @if (post.postImg == "" || post.postImg != null)
+                            {
+                                <img src="@post.postImg" class="mx-auto d-block" style="width:400px;height:200px;" />
+                            }
+                        </blockquote>
+                    </div>
+
+                    <a class="text-primary" style="cursor:pointer;text-decoration:none;" data-bs-toggle="collapse" data-bs-target="#collapse-@post.Id" aria-expanded="false" aria-controls="collapse-@post.Id">
+                        Ver comentarios
+                    </a>
+                  
+                    <div class="m-2">
+                        <div class="collapse collapse-horizontal" id="collapse-@post.Id">
+                            <div class="card card-body">
+                                hola
+                            </div>
+
+                            <form method="post" asp-controller="Home" asp-action="CreateComment" class="position-relative p-2" style="margin-bottom:80px;">
+                                <input type="hidden" asp-for="@Model.commentSaveViewModel.IdPost" value=@post.Id />
+                                <input asp-for="@Model.commentSaveViewModel.Content" class="form-control" placeholder="Comenta" style="height:40px;" />
+                                <button class="btn btn-primary position-absolute w-25 end-0 mt-2">Post</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+
         </div>
-        <div class="card-body">
-            <blockquote class="blockquote">
-                <p>A well-known quote, contained in a blockquote element.</p>
-            </blockquote>
-        </div>
-    </div>
+    }
+    else
+    {
+
+        <h1 class="text-center">Debe activar su cuenta</h1>
+        <p class="text-center">Para activar su cuenta debe acceder al enlace que se encuentra en el correo que hemos enviado</p>
+    }
+
 </div>
-    

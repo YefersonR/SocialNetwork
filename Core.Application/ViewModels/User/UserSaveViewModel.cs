@@ -36,6 +36,8 @@ namespace Core.Application.ViewModels.User
         [Required(ErrorMessage = "Debe ingresar una contraseña para el usuario")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
+        public bool IsActiveUser { get; set; } = false;
+
 
     }
 }

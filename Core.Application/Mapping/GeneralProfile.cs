@@ -49,7 +49,6 @@ namespace Core.Application.Mapping
                 .ForMember(comment => comment.Updated, opt => opt.Ignore())
                 .ForMember(comment => comment.UpdatedBy, opt => opt.Ignore());
 
-
             CreateMap<User, UserSaveViewModel>()
                 .ReverseMap()
                 .ForMember(comment => comment.Created, opt => opt.Ignore())

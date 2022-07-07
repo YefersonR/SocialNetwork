@@ -16,8 +16,8 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
+        
     <header>
-
         <nav class="navbar navbar-expand-sm  w-100 navbar-toggleable-sm navbar-light bg-info border-bottom box-shadow mb-3">
             <div class="container d-flex justify-content-between">
                 <a class="navbar-brand text-white" asp-controller="@(User != null ? "Home" : "User")" asp-action="Index"> RedSocial</a>
@@ -28,18 +28,18 @@
                 @if (userViewModel == null)
                 {
 
-                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                            <ul class="navbar-nav flex-grow-1">
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" asp-controller="User" asp-action="Register">Registrarme</a>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="User" asp-action="Register">Registrarme</a>
+                            </li>
+                        </ul>
+                    </div>
 
                 }
                 else
                 {
-                    <img src="@userViewModel.ProfilePicture" style="width:40px;height:40px;" />
+
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
@@ -47,11 +47,24 @@
                             </li>
                         </ul>
                     </div>
-                    <form>
-                        <input class="form-control " type="text" placeholder="Search friends" />
-                    </form>
+                    <div >
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item d-flex">
+                                <a class="nav-link text-white">@userViewModel.UserName</a>
+                                <img src="@userViewModel.ProfilePicture" style="width:40px;height:40px;border-radius:50%; " />
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-danger" style="font-size:1.1rem;" asp-controller="User" asp-action="LogOut">Cerrar Session</a>
+                            </li>
+                        </ul>
+                    </div>
                 }
-                </div>
+            </div>
             </nav>
 
             </header>
