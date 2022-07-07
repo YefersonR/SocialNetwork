@@ -12,7 +12,7 @@ namespace Core.Application.ViewModels.Post
         public UserViewModel User { get; set; }
         public string Content { get; set; }
         public string postImg { get; set; }
-        public Task<List<CommentViewModel>> Comments { get; set; }
+        public List<CommentViewModel> Comments { get; set; }
 
 
     }

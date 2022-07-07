@@ -13,6 +13,6 @@ namespace Core.Domain.Entities
         public User User { get; set; }
         public string Content { get; set; }
         public string postImg { get; set; }
-        public  List<Comment> Comments { get; set; }
+        public List<Comment> Comments { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace Core.Application.ViewModels.Post
         public string postImg { get; set; }
         [DataType(DataType.Upload)]
         public IFormFile File { get; set; }
-        public  Task<List<CommentViewModel>> Comments { get; set; }
+        public  List<CommentViewModel> Comments { get; set; }
        
     }
 }

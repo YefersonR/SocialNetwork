@@ -49,6 +49,8 @@ namespace RedSocial.Controllers
             if (_validateSession.HasUser())
             {
                 _homeViewModel.postViewModels =  await _postServices.GetAllViewModelWithInclude();
+                _homeViewModel.commentViewModels = await _commentServices.GetAllViewModelWithInclude();
+
                 return View(_homeViewModel);
             }
             return RedirectToRoute(new { controller = "User", action = "Index"});
@@ -68,7 +70,7 @@ namespace RedSocial.Controllers
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }
         public async Task<IActionResult> CreatePost(PostSaveViewModel postSaveViewModel)
-            {
+        {
 
             PostSaveViewModel postSVM = await _postServices.Add(postSaveViewModel);
             if (postSVM != null && postSVM.Id != 0)

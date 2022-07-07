@@ -39,18 +39,15 @@ namespace Core.Application.Services
 
         public async Task<List<CommentViewModel>> GetAllViewModelWithInclude()
         {
-            var post = await _postRepository.GetAllViewModels();
-            PostViewModel viewModel = _mapper.Map<PostViewModel>(post);
-            
 
-            List<Comment> list = await _commentRepository.GetAllWithInclude(new List<string>{ "" });
+            List<Comment> list = await _commentRepository.GetAll();
+                //.GetAllWithInclude(new List<string>{ "Users" });
             return list.Select(comment => new CommentViewModel
             {
 
                 Id = comment.Id,
                 Content = comment.Content,
-                IdPost = comment.IdPost,
-                Post = viewModel
+                IdPost = comment.IdPost
 
             }).ToList();
         }

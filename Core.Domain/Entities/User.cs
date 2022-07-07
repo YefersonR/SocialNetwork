@@ -19,8 +19,8 @@ namespace Core.Domain.Entities
         public bool IsActiveUser { get; set; } = false;
 
         public List<Post> Posts { get; set; }
-        /*
         public List<Comment> Comments{ get; set; }
+        /*
         public virtual ICollection<User> Friend { get; set; }
         public virtual ICollection<User> FriendOf { get; set; }
 

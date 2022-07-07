@@ -37,7 +37,7 @@
                         <blockquote class="blockquote">
                             <p>@post.Content </p>
 
-                            @if (post.postImg == "" || post.postImg != null)
+                            @if (post.postImg != null  && post.postImg != "")
                             {
                                 <img src="@post.postImg" class="mx-auto d-block" style="width:400px;height:200px;" />
                             }
@@ -50,9 +50,16 @@
                   
                     <div class="m-2">
                         <div class="collapse collapse-horizontal" id="collapse-@post.Id">
-                            <div class="card card-body">
-                                hola
-                            </div>
+                            @foreach(CommentViewModel comment in Model.commentViewModels)
+                            {
+                                if (comment.IdPost == post.Id)
+                                {
+                                    <div class="card card-body m-1">
+                                    @comment.Content
+                                    </div>
+
+                                }
+                             }
 
                             <form method="post" asp-controller="Home" asp-action="CreateComment" class="position-relative p-2" style="margin-bottom:80px;">
                                 <input type="hidden" asp-for="@Model.commentSaveViewModel.IdPost" value=@post.Id />
