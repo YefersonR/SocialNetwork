@@ -21,6 +21,6 @@ namespace Core.Application.ViewModels.Post
         [DataType(DataType.Upload)]
         public IFormFile File { get; set; }
         public  List<CommentViewModel> Comments { get; set; }
-       
+
     }
 }

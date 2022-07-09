@@ -74,12 +74,22 @@ namespace RedSocial.Controllers
 
             }
             UserSaveViewModel userSaveView = await _userService.Add(saveViewModel);
+            if (userSaveView != null)
+            {
+
             if (userSaveView != null && userSaveView.Id != 0)
             {
                 userSaveView.ProfilePicture = _upload.UploadImage(saveViewModel.PictureFile, userSaveView.Id,"Profiles",true);
                 await _userService.Update(userSaveView, userSaveView.Id);
             }
             return RedirectToRoute(new { controller = "User", action = "Index" });
+            }
+            else
+            {
+                ViewBag.Acceso = "Nombre se usuario en uso";
+                return View();
+
+            }
         } 
         public async Task<IActionResult> ConfirmUser(int id)
         {

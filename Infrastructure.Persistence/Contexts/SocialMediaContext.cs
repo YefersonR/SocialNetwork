@@ -25,11 +25,9 @@ namespace Infrastructure.Persistence.Contexts
             {
                 switch (entry.State)
                 {
-                    case EntityState.Added:
-                        entry.Entity.Created=DateTime.Now;
-                        entry.Entity.CreatedBy="";
-                        break;
                     case EntityState.Modified:
+                        entry.Entity.Created = DateTime.Now;
+                        entry.Entity.CreatedBy="";
                         entry.Entity.Updated = DateTime.Now;
                         entry.Entity.UpdatedBy = "";
                         break;

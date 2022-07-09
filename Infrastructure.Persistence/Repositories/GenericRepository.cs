@@ -47,7 +47,7 @@ namespace Infrastructure.Persistence.Repositories
 
         public virtual async Task<T> GetById(int id)
         {
-            return await _mediaContext.Set<T>().FindAsync(id);
+              return await _mediaContext.Set<T>().FindAsync(id);
         }
         public virtual async Task Delete(T type)
         {

@@ -40,15 +40,21 @@ namespace Core.Application.Services
   
         public override async Task<UserSaveViewModel> Add(UserSaveViewModel type)
         {
-            UserSaveViewModel userSaveViewModel = await base.Add(type);
-            await _emailService.SendEmail(new EmailRequest
+            var users = await _userRepository.GetAll();
+            users = users.Where(user => user.UserName == type.UserName).ToList();
+            if(users.Count == 0)
             {
-                To = userSaveViewModel.Mail,
-                Subject ="Confirmacion de Email",
-                Body = $"Entra al link para activar tu cuenta https://localhost:5001/User/ConfirmUser/{userSaveViewModel.Id}"
-            });
- 
-            return userSaveViewModel;
+
+                UserSaveViewModel userSaveViewModel = await base.Add(type);
+                await _emailService.SendEmail(new EmailRequest
+                {
+                    To = userSaveViewModel.Mail,
+                    Subject ="Confirmacion de Email",
+                    Body = $"Entra al link para activar tu cuenta https://localhost:5001/User/ConfirmUser/{userSaveViewModel.Id}"
+                });
+                return userSaveViewModel;
+             }
+            return null;
         }
 
         public async Task ConfirmMail(UserSaveViewModel userVm)

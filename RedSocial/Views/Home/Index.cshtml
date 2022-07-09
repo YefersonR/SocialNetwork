@@ -10,6 +10,7 @@
 @{
     UserViewModel user = httpContext.HttpContext.Session.Get<UserViewModel>("user");
     ViewData["Title"] = "Home Page";
+    bool editMode = false;
 }
 
 <div class="text-center w-50 d-block m-auto">
@@ -32,17 +33,28 @@
                             <img src="@post.User.ProfilePicture" style="width:40px;height:40px;border-radius:50%;" />
                             @post.User.UserName - @post.User.Name @post.User.LastName
                         </div>
+                        <div class="float-end">
+                            @post.Created
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <blockquote class="blockquote">
-                            <p>@post.Content </p>
+                        <div class="d-flex justify-content-end align-items-center">
+                            <div class="btn-group">
+                                <a asp-controller="Home" asp-action="Delete" asp-route-id="@post.Id" class="btn btn-sm btn-outline-danger">Borrar</a>
+                            </div>
+                        </div>
+                        <div class="card-body">
 
-                            @if (post.postImg != null  && post.postImg != "")
-                            {
-                                <img src="@post.postImg" class="mx-auto d-block" style="width:400px;height:200px;" />
-                            }
-                        </blockquote>
-                    </div>
+                            <blockquote class="blockquote">
+
+                                <p>@post.Content </p>
+                                @if (post.postImg != null && post.postImg != "")
+                                {
+                                    <img src="@post.postImg" class="mx-auto d-block" style="width:400px;height:200px;" />
+                                }
+
+
+                            </blockquote>
+                        </div>
 
                     <a class="text-primary" style="cursor:pointer;text-decoration:none;" data-bs-toggle="collapse" data-bs-target="#collapse-@post.Id" aria-expanded="false" aria-controls="collapse-@post.Id">
                         Ver comentarios
@@ -52,7 +64,7 @@
                         <div class="collapse collapse-horizontal" id="collapse-@post.Id">
                             @foreach (var comment in post.Comments.ToList())
                             {
-                            <div class="card" style="width: 100%">
+                            <div class="card m-1" style="width: 100%">
                                 <div class="card-header">
                                     <div class="float-start">
                                         <img src="@comment.User.ProfilePicture" style="width:40px;height:40px;border-radius:50%;" />

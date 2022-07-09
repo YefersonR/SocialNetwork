@@ -30,7 +30,6 @@ namespace Core.Application.Mapping
 
             CreateMap<Post, PostViewModel>()
                 .ReverseMap()
-                .ForMember(comment => comment.Created, opt => opt.Ignore())
                 .ForMember(comment => comment.CreatedBy, opt => opt.Ignore())
                 .ForMember(comment => comment.Updated, opt => opt.Ignore())
                 .ForMember(comment => comment.UpdatedBy, opt => opt.Ignore());

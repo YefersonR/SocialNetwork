@@ -12,6 +12,7 @@ using RedSocial.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -49,7 +50,6 @@ namespace RedSocial.Controllers
             if (_validateSession.HasUser())
             {
                 _homeViewModel.postViewModels =  await _postServices.GetAllViewModelWithInclude();
-
                 return View(_homeViewModel);
             }
             return RedirectToRoute(new { controller = "User", action = "Index"});
@@ -70,30 +70,71 @@ namespace RedSocial.Controllers
         }
         public async Task<IActionResult> CreatePost(PostSaveViewModel postSaveViewModel)
         {
-
-            PostSaveViewModel postSVM = await _postServices.Add(postSaveViewModel);
-            if (postSVM != null && postSVM.Id != 0)
+            if (ModelState.IsValid)
             {
-                postSVM.postImg = _upload.UploadImage(postSaveViewModel.File, postSVM.Id, "Posts",true);
-                await _postServices.Update(postSVM, postSVM.Id);
-            }
+                PostSaveViewModel postSVM = await _postServices.Add(postSaveViewModel);
+                if (postSVM != null && postSVM.Id != 0)
+                {
+                    postSVM.postImg = _upload.UploadImage(postSaveViewModel.File, postSVM.Id, "Posts",true);
+                    await _postServices.Update(postSVM, postSVM.Id);
+                }
+                return RedirectToRoute(new { controller = "Home", action = "Index" });
+             }
             return RedirectToRoute(new { controller = "Home", action = "Index" });
 
         }
         [HttpPost]
-        public async Task<IActionResult> CreateComment(CommentSaveViewModel commentSaveViewModel, int id)
+        public async Task<IActionResult> CreateComment(CommentSaveViewModel commentSaveViewModel)
         {
-            await _commentServices.Add(commentSaveViewModel);
+            if (ModelState.IsValid)
+            {
+                await _commentServices.Add(commentSaveViewModel);
+                return RedirectToRoute(new { controller = "Home", action = "Index" });
+            }
             return RedirectToRoute(new { controller = "Home", action = "Index" });
         }
-        public async Task<IActionResult> CreateCommentFriends(CommentSaveViewModel commentSaveViewModel, int id)
+        public async Task<IActionResult> CreateCommentFriends(CommentSaveViewModel commentSaveViewModel)
         {
-            await _commentServices.Add(commentSaveViewModel);
+            if (ModelState.IsValid)
+            {
+                await _commentServices.Add(commentSaveViewModel);
             return RedirectToRoute(new { controller = "Home", action = "Friends" });
+            }
+            return null;
         }
         public async Task<IActionResult> Search(SearchFriendViewModel searchFriend)
         {
-            return View(await _userServices.SearchFriend(searchFriend));
+            if (ModelState.IsValid)
+            {
+                return View(await _userServices.SearchFriend(searchFriend));
+            }
+            return RedirectToRoute(new { controller = "Home", action = "Index" });
+        }
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _postServices.Delete(id);
+            string basePath = $"/Img/Anuncios/${id}";
+            string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
+
+            if (Directory.Exists(path))
+            {
+                DirectoryInfo directoryInfo = new(path);
+                foreach (FileInfo file in directoryInfo.GetFiles())
+                {
+                    file.Delete();
+                }
+                foreach (DirectoryInfo folder in directoryInfo.GetDirectories())
+                {
+                    folder.Delete(true);
+                }
+                Directory.Delete(path);
+            }
+            return RedirectToRoute(new { controller = "Home", action = "Index" });
+        }
+        public async Task<IActionResult> Edit(PostSaveViewModel postSaveViewModel)
+        {
+            await _postServices.Update(postSaveViewModel,postSaveViewModel.Id);
+            return RedirectToRoute(new { controller = "Home", action = "Index"});
         }
     }
 }

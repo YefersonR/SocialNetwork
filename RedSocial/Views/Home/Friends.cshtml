@@ -18,6 +18,9 @@
                             <img src="@post.User.ProfilePicture" style="width:40px;height:40px;border-radius:50%;" />
                             @post.User.UserName - @post.User.Name @post.User.LastName
                         </div>
+                        <div class="float-end">
+                            @post.Created
+                        </div>
                     </div>
                     <div class="card-body">
                         <blockquote class="blockquote">
@@ -39,11 +42,13 @@
 
                             @foreach (var comment in post.Comments.ToList())
                             {
-                                <div class="card" style="width: 100%">
+                                <div class="card m-1" style="width: 100%">
+                                    <div class="card-header">
                                         <div class="float-start">
                                             <img src="@comment.User.ProfilePicture" style="width:40px;height:40px;border-radius:50%;" />
                                             @comment.User.Name - @comment.User.UserName @comment.User.LastName
                                         </div>
+                                    </div>
                                     <div class="card-body">
                                         <p class="card-text">@comment.Content</p>
                                     </div>
