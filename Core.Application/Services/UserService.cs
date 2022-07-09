@@ -62,6 +62,7 @@ namespace Core.Application.Services
             var list = await _userRepository.GetAll();
             return list.Where(user => user.UserName.ToLower() == searchViewModel.userName.ToLower()).Select(user => new UserViewModel
             {
+                Id = user.Id,
                 Name = user.Name,
                 LastName =user.LastName,
                 Phone = user.Phone,

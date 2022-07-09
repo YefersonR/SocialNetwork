@@ -17,7 +17,6 @@ namespace Core.Domain.Entities
         public string  UserName { get; set; }
         public string Password { get; set; }
         public bool IsActiveUser { get; set; } = false;
-
         public List<Post> Posts { get; set; }
         public List<Comment> Comments{ get; set; }
         /*

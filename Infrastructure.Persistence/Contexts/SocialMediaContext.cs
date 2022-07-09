@@ -51,8 +51,7 @@ namespace Infrastructure.Persistence.Contexts
             modelBuilder.Entity<User>().HasKey(user => user.Id);
             modelBuilder.Entity<Post>().HasKey(post => post.Id);
             modelBuilder.Entity<Comment>().HasKey(comment => comment.Id);
-            /*
-            */
+
             #endregion
             #region Relationship
             #region Post
@@ -71,17 +70,11 @@ namespace Infrastructure.Persistence.Contexts
                 .HasForeignKey(post => post.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            //modelBuilder.Entity<User>()
-            //    .HasMany<Comment>(user => user.Comments)
-            //    .WithOne(comment => comment.User)
-            //    .HasForeignKey(comment => comment.IdUser);
-
-           /*
-            //modelBuilder.Entity<User>()
-            //    .HasMany(user => user.Friend)
-            //    .WithMany(user => user.FriendOf);
-               
-                */   
+            modelBuilder.Entity<User>()
+                .HasMany<Comment>(user => user.Comments)
+                .WithOne(comment => comment.User)  
+                .HasForeignKey(comment => comment.IdUser)
+                .OnDelete(DeleteBehavior.NoAction);
 
             #endregion
             #endregion

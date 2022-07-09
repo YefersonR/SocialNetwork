@@ -38,20 +38,20 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<int>("IdPost")
                         .HasColumnType("int");
 
+                    b.Property<int>("IdUser")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Updated")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("IdPost");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("IdUser");
 
                     b.ToTable("Comments");
                 });
@@ -147,11 +147,15 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Domain.Entities.User", null)
+                    b.HasOne("Core.Domain.Entities.User", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("IdUser")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Post");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.Post", b =>

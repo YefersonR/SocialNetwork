@@ -63,6 +63,7 @@ namespace Infrastructure.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdUser = table.Column<int>(type: "int", nullable: false),
                     IdPost = table.Column<int>(type: "int", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -78,12 +79,22 @@ namespace Infrastructure.Persistence.Migrations
                         principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comments_Users_IdUser",
+                        column: x => x.IdUser,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_IdPost",
                 table: "Comments",
                 column: "IdPost");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_IdUser",
+                table: "Comments",
+                column: "IdUser");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_UserId",

@@ -33,6 +33,7 @@ namespace Core.Application.Services
         }
         public override async Task<CommentSaveViewModel> Add(CommentSaveViewModel type)
         {
+            type.IdUser = user.Id;
 
             return await base.Add(type);
         }
@@ -40,14 +41,18 @@ namespace Core.Application.Services
         public async Task<List<CommentViewModel>> GetAllViewModelWithInclude()
         {
 
-            List<Comment> list = await _commentRepository.GetAll();
-                //.GetAllWithInclude(new List<string>{ "Users" });
+            List<Comment> list = await _commentRepository.GetAllWithInclude(new List<string>{ "User, Post" });
             return list.Select(comment => new CommentViewModel
             {
 
                 Id = comment.Id,
                 Content = comment.Content,
-                IdPost = comment.IdPost
+                IdUser = comment.IdUser,
+                User = user,
+                IdPost = comment.IdPost,
+                
+
+
 
             }).ToList();
         }

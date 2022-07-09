@@ -50,23 +50,28 @@
                   
                     <div class="m-2">
                         <div class="collapse collapse-horizontal" id="collapse-@post.Id">
-                            @foreach(CommentViewModel comment in Model.commentViewModels)
+                            @foreach (var comment in post.Comments.ToList())
                             {
-                                if (comment.IdPost == post.Id)
-                                {
-                                    <div class="card card-body m-1">
-                                    @comment.Content
+                            <div class="card" style="width: 100%">
+                                <div class="card-header">
+                                    <div class="float-start">
+                                        <img src="@comment.User.ProfilePicture" style="width:40px;height:40px;border-radius:50%;" />
+                                        @comment.User.Name - @comment.User.UserName @comment.User.LastName
                                     </div>
+                                </div>
+                                    <div class="card-body">
+                                        <p class="card-text">@comment.Content</p>
+                                    </div>
+                                </div>
 
                                 }
-                             }
 
-                            <form method="post" asp-controller="Home" asp-action="CreateComment" class="position-relative p-2" style="margin-bottom:80px;">
-                                <input type="hidden" asp-for="@Model.commentSaveViewModel.IdPost" value=@post.Id />
-                                <input asp-for="@Model.commentSaveViewModel.Content" class="form-control" placeholder="Comenta" style="height:40px;" />
-                                <button class="btn btn-primary position-absolute w-25 end-0 mt-2">Post</button>
-                            </form>
-                        </div>
+                                <form method="post" asp-controller="Home" asp-action="CreateComment" class="position-relative p-2" style="margin-bottom:80px;">
+                                    <input type="hidden" asp-for="@Model.commentSaveViewModel.IdPost" value=@post.Id />
+                                    <input asp-for="@Model.commentSaveViewModel.Content" class="form-control" placeholder="Comenta" style="height:40px;" />
+                                    <button class="btn btn-primary position-absolute w-25 end-0 mt-2">Post</button>
+                                </form>
+                            </div>
                     </div>
                 </div>
 

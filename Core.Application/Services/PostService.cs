@@ -18,12 +18,14 @@ namespace Core.Application.Services
     public class PostService : GenericService<Post,PostSaveViewModel,PostViewModel>, IPostServices
     {
         private readonly IPostRepository _postRepository;
+        private readonly ICommentRepository _commentRepository;
         private readonly IHttpContextAccessor _httpContext;
         private readonly UserViewModel user;
         private readonly IMapper _mapper;
-        public PostService(IPostRepository postRepository, IHttpContextAccessor httpContext, IMapper mapper):base(postRepository,mapper)
+        public PostService(IPostRepository postRepository, ICommentRepository commentRepository, IHttpContextAccessor httpContext, IMapper mapper):base(postRepository,mapper)
         {
             _postRepository = postRepository;
+            _commentRepository = commentRepository;
             _mapper = mapper;
             _httpContext = httpContext;
             user = _httpContext.HttpContext.Session.Get<UserViewModel>("user");
@@ -35,17 +37,28 @@ namespace Core.Application.Services
         }
         public virtual async Task<List<PostViewModel>> GetAllFriendsViewModels()
         {
+            List<Comment> comments = await _commentRepository.GetAllWithInclude(new List<string> { "User" });
+            List<CommentViewModel> commentViewModels = _mapper.Map<List<CommentViewModel>>(comments);
             List<Post> post = await _postRepository.GetAllWithInclude(new List<string> { "User" });
-            post = post.Where(post=>post.UserId != user.Id).OrderBy(post => post.Created).ToList();
-            List<PostViewModel> viewModels = _mapper.Map<List<PostViewModel>>(post);
-            return viewModels;
-        
+            
+            List<PostViewModel> viewModel = _mapper.Map<List<PostViewModel>>(post).ToList();
+            return viewModel.Where(post => post.UserId != user.Id).Select(post => new PostViewModel
+            {
+                Id = post.Id,
+                UserId = post.UserId,
+                Content = post.Content,
+                postImg = post.postImg,
+                User = post.User,
+                Comments = commentViewModels.Where(comment => comment.IdPost == post.Id).ToList()
+            }).ToList();
+
         }
 
 
         public async Task<List<PostViewModel>> GetAllViewModelWithInclude()
         {
-            
+            List<Comment> comments = await _commentRepository.GetAllWithInclude(new List<string> { "User" });
+            List<CommentViewModel> commentViewModels = _mapper.Map<List<CommentViewModel>>(comments);
             List<Post> list = await _postRepository.GetAllWithInclude(new List<string> { "User" });
             return list.Where(post => post.UserId == user.Id).OrderBy(post => post.Created).Select(post => new PostViewModel
             {
@@ -54,7 +67,7 @@ namespace Core.Application.Services
                 Content = post.Content,
                 postImg = post.postImg,
                 User = user,
-
+                Comments = commentViewModels.Where(comment=>comment.IdPost == post.Id).ToList()
             }).ToList();
         }
     }

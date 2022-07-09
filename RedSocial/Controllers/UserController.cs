@@ -76,7 +76,7 @@ namespace RedSocial.Controllers
             UserSaveViewModel userSaveView = await _userService.Add(saveViewModel);
             if (userSaveView != null && userSaveView.Id != 0)
             {
-                userSaveView.ProfilePicture = _upload.UploadImage(saveViewModel.PictureFile, userSaveView.Id,"Profiles");
+                userSaveView.ProfilePicture = _upload.UploadImage(saveViewModel.PictureFile, userSaveView.Id,"Profiles",true);
                 await _userService.Update(userSaveView, userSaveView.Id);
             }
             return RedirectToRoute(new { controller = "User", action = "Index" });
@@ -85,7 +85,7 @@ namespace RedSocial.Controllers
         {
               UserSaveViewModel user = await _userService.GetById(id);
               await _userService.ConfirmMail(user);
-             return RedirectToRoute(new { controller = "User", action = "Index" });
+             return RedirectToRoute(new { controller = "Home", action = "Index" });
 
         }
         public IActionResult LogOut()

@@ -49,7 +49,6 @@ namespace RedSocial.Controllers
             if (_validateSession.HasUser())
             {
                 _homeViewModel.postViewModels =  await _postServices.GetAllViewModelWithInclude();
-                _homeViewModel.commentViewModels = await _commentServices.GetAllViewModelWithInclude();
 
                 return View(_homeViewModel);
             }
