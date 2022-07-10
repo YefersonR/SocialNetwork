@@ -50,7 +50,8 @@ namespace Core.Application.Services
 
             var result = (from u in users
                           join f in friends
-                          on u.Id equals f.IdUser
+                          on u.Id equals f.IdFriend
+                          where(f.IdUser == user.Id)
                           select u).ToList();
 
             List<UserViewModel> viewModels = _mapper.Map<List<UserViewModel>>(result);
@@ -67,7 +68,7 @@ namespace Core.Application.Services
             var result = (from f in friends
                           join p in post
                           on f.IdFriend equals p.UserId
-                          where(f.IdFriend == p.UserId)
+                          where (f.IdUser == user.Id)
                           select p).ToList();
 
             List<PostViewModel> viewModel = _mapper.Map<List<PostViewModel>>(result).ToList();
