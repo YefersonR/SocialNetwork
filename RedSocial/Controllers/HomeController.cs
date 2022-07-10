@@ -2,6 +2,7 @@
 using Core.Application.Interfaces.Services;
 using Core.Application.ViewModels;
 using Core.Application.ViewModels.Comment;
+using Core.Application.ViewModels.Friends;
 using Core.Application.ViewModels.Post;
 using Core.Application.ViewModels.User;
 using Microsoft.AspNetCore.Http;
@@ -25,22 +26,27 @@ namespace RedSocial.Controllers
         private readonly UserViewModel user;
         private readonly IPostServices _postServices;
         private readonly IUserService _userServices;
+        private readonly IFriendService _FriendServices;
+        FriendSaveViewModel friendSaveViewModel;
         private readonly ICommentService _commentServices;
         private readonly UploadImages _upload;
         private HomeViewModel _homeViewModel;
 
 
         public HomeController
-        (ValidateSession validateSession, IHttpContextAccessor httpContext,IPostServices postServices, IUserService userServices,ICommentService commentService)
+        (ValidateSession validateSession, IHttpContextAccessor httpContext,IPostServices postServices, IFriendService FriendServices, IUserService userServices,ICommentService commentService)
         {
             _validateSession = validateSession;
             _httpContext = httpContext;
-            _postServices=postServices; 
+            _postServices=postServices;
+            _FriendServices = FriendServices;
+
             user = _httpContext.HttpContext.Session.Get<UserViewModel>("user");
             _userServices = userServices;
             _commentServices = commentService;
             _upload = new();
             _homeViewModel = new();
+            friendSaveViewModel = new();
 
         }
 
@@ -60,7 +66,8 @@ namespace RedSocial.Controllers
             {
                 if (user.IsActiveUser)
                 {
-                    _homeViewModel.postViewModels = await _postServices.GetAllFriendsViewModels();
+                    _homeViewModel.postViewModels = await _FriendServices.GetAllFriendsViewModels();
+                    _homeViewModel.friendsViewModels = await _FriendServices.GetAllViewModels();
                     return View(_homeViewModel);
                 }
                 return RedirectToRoute(new { controller = "Home", action = "Index" });
@@ -110,7 +117,17 @@ namespace RedSocial.Controllers
             }
             return RedirectToRoute(new { controller = "Home", action = "Index" });
         }
-        public async Task<IActionResult> Delete(int id)
+        [HttpPost]
+        public async Task<IActionResult> AddFriend(int id)
+        {
+
+            var friend = await _userServices.GetById(id);
+            friendSaveViewModel.IdUser = user.Id;
+            friendSaveViewModel.IdFriend = friend.Id;
+            await _FriendServices.Add(friendSaveViewModel);
+            return RedirectToRoute(new { controller = "Home", action = "Friends" });
+        }
+            public async Task<IActionResult> Delete(int id)
         {
             await _postServices.Delete(id);
             string basePath = $"/Img/Anuncios/${id}";

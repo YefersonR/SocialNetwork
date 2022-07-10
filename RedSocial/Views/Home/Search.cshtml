@@ -14,9 +14,12 @@
         <div class="d-flex justify-content-between m-5">
             <div class="d-flex align-items-center">
                 <img src="@user.ProfilePicture" style="width:40px;height:40px;border-radius:50%;margin-right:10px;" />
-                <a asp-controller="Home" asp-action="Index" asp-route-id="@user.Id" style="text-decoration:none;">@user.UserName (@user.Name @user.LastName ) </a>
+                <form method="post" asp-controller="Home" asp-action="AddFriend">
+                    <input type="hidden" name="Id" value=@user.Id />
+                    <a style="text-decoration:none;">@user.UserName (@user.Name @user.LastName ) </a>
+                <button class="btn btn-outline-info">Añadir a amigos</button>
+                </form>
             </div>
-            <button class="btn btn-outline-info">Añadir a amigos</button>
         </div>
     }
 </div>

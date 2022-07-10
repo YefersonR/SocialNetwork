@@ -19,7 +19,8 @@ namespace Core.Application
             services.AddTransient(typeof(IGenericService<,>), typeof(GenericService<,,>));
             services.AddTransient<ICommentService,CommentService>();
             services.AddTransient<IPostServices, PostService>();
-            services.AddTransient<IUserService, UserService>(); 
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IFriendService, FriendService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 

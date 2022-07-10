@@ -15,9 +15,9 @@ namespace Infrastructure.Persistence.Contexts
         public DbSet<User> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
         public  DbSet<Comment> Comments { get; set; }
-       /*
-        public DbSet<Friends> Friends{ get; set; }
-        */
+
+        public DbSet<Friends> Friends { get; set; }
+
         public SocialMediaContext(DbContextOptions options) : base(options) { }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
         {
@@ -41,14 +41,15 @@ namespace Infrastructure.Persistence.Contexts
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<Post>().ToTable("Posts");
             modelBuilder.Entity<Comment>().ToTable("Comments");
-            /*
+
             modelBuilder.Entity<Friends>().ToTable("Friends");
-            */
+
             #endregion
             #region Primary Key
             modelBuilder.Entity<User>().HasKey(user => user.Id);
             modelBuilder.Entity<Post>().HasKey(post => post.Id);
             modelBuilder.Entity<Comment>().HasKey(comment => comment.Id);
+            modelBuilder.Entity<Friends>().HasKey(comment => comment.Id);
 
             #endregion
             #region Relationship
@@ -73,6 +74,20 @@ namespace Infrastructure.Persistence.Contexts
                 .WithOne(comment => comment.User)  
                 .HasForeignKey(comment => comment.IdUser)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<User>()
+                .HasMany<Friends>(user => user.Friend)
+                .WithOne(comment => comment.User)
+                .HasForeignKey(comment=> comment.IdUser)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<User>()
+                .HasMany<Friends>(user => user.FriendOf)
+                .WithOne(comment => comment.Friend)
+                .HasForeignKey(comment => comment.IdFriend)
+                .OnDelete(DeleteBehavior.NoAction);
+        
+
 
             #endregion
             #endregion

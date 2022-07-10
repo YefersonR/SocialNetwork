@@ -95,7 +95,7 @@ namespace RedSocial.Controllers
         {
               UserSaveViewModel user = await _userService.GetById(id);
               await _userService.ConfirmMail(user);
-             return RedirectToRoute(new { controller = "Home", action = "Index" });
+             return RedirectToRoute(new { controller = "User", action = "Index" });
 
         }
         public IActionResult LogOut()

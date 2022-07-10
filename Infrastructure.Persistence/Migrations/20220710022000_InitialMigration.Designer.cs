@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(SocialMediaContext))]
-    [Migration("20220709144543_InitialMigration")]
+    [Migration("20220710022000_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,6 +56,28 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasIndex("IdUser");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("Core.Domain.Entities.Friends", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("IdFriend")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdUser")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdFriend");
+
+                    b.HasIndex("IdUser");
+
+                    b.ToTable("Friends");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.Post", b =>
@@ -160,6 +182,25 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Core.Domain.Entities.Friends", b =>
+                {
+                    b.HasOne("Core.Domain.Entities.User", "Friend")
+                        .WithMany("FriendOf")
+                        .HasForeignKey("IdFriend")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Core.Domain.Entities.User", "User")
+                        .WithMany("Friend")
+                        .HasForeignKey("IdUser")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Friend");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Core.Domain.Entities.Post", b =>
                 {
                     b.HasOne("Core.Domain.Entities.User", "User")
@@ -179,6 +220,10 @@ namespace Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Core.Domain.Entities.User", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Friend");
+
+                    b.Navigation("FriendOf");
 
                     b.Navigation("Posts");
                 });

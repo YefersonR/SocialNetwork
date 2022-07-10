@@ -25,7 +25,7 @@ namespace Core.Application.Services
             _mapper = mapper;
             _emailService = emailService;
 
-    }
+        } 
     public async Task<UserViewModel> Login(LoginViewModel loginViewModel)
         {
             User user = await _userRepository.Login(loginViewModel);
@@ -56,7 +56,11 @@ namespace Core.Application.Services
              }
             return null;
         }
-
+        public override Task Update(UserSaveViewModel type, int id)
+        {
+            
+            return base.Update(type, id);
+        }
         public async Task ConfirmMail(UserSaveViewModel userVm)
         {
             User user = _mapper.Map<User>(userVm);

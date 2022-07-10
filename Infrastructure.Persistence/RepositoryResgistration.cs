@@ -28,6 +28,7 @@ namespace Infrastructure.Persistence
             service.AddTransient<IPostRepository,PostRepositories>();
             service.AddTransient<IUserRepository, UserRepository>();
             service.AddTransient<ICommentRepository, CommentRepository>();
+            service.AddTransient<IFriendRepository, FriendRepository>();
 
 
         }

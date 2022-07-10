@@ -1,5 +1,6 @@
 ﻿@using Core.Application.ViewModels.Comment
 @using Core.Application.ViewModels.Post
+@using Core.Application.ViewModels.User;
 @using Core.Application.ViewModels;
 
 @model HomeViewModel
@@ -32,7 +33,7 @@
                             }
                         </blockquote>
                     </div>
-                    
+
                     <a class="text-primary" style="cursor:pointer;text-decoration:none;" data-bs-toggle="collapse" data-bs-target="#collapse-@post.Id" aria-expanded="false" aria-controls="collapse-@post.Id">
                         Ver comentarios
                     </a>
@@ -70,8 +71,20 @@
 
         </div>
     </div>
-    <form method="post" asp-controller="Home" asp-action="Search" class="w-25">
-        <input name="Username" class="form-control" placeholder="Search" />
-    </form>
+    <div>
+        <form method="post" asp-controller="Home" asp-action="Search" class="w-100">
+            <input name="Username" class="form-control" placeholder="Search" />
+        </form>
+        <div class="m-3">
+            <h2>Amigos</h2>
+            @foreach(UserViewModel friend in Model.friendsViewModels)
+            {
+                <div class="m-1">
+                    <img src="@friend.ProfilePicture" style="width:40px;height:40px;border-radius:50%;" />
+                    @friend.UserName - @friend.Name @friend.LastName
+                </div>
+            }
+        </div>
+    </div>
 
 </div>

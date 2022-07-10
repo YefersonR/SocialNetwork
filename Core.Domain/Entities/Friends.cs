@@ -8,10 +8,12 @@ namespace Core.Domain.Entities
 {
     public class Friends
     {
+        public int Id{ get; set; }
+
         public int IdUser { get; set; }
 
         public User User { get; set; }
-        public int IdFriend {get; set;}
+        public int IdFriend {get; set;} 
         public User Friend { get; set; }
     }
 }

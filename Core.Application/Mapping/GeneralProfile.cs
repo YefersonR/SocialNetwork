@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.Application.ViewModels.Comment;
+using Core.Application.ViewModels.Friends;
 using Core.Application.ViewModels.Post;
 using Core.Application.ViewModels.User;
 using Core.Domain.Entities;
@@ -54,6 +55,15 @@ namespace Core.Application.Mapping
                 .ForMember(comment => comment.CreatedBy, opt => opt.Ignore())
                 .ForMember(comment => comment.Updated, opt => opt.Ignore())
                 .ForMember(comment => comment.UpdatedBy, opt => opt.Ignore());
+            
+            
+            CreateMap<Friends, FriendSaveViewModel>()
+                .ReverseMap();
+
+            CreateMap<Friends, FriendViewModel>()
+                .ReverseMap();
+
+
 
         }
     }
