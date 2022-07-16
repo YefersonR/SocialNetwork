@@ -50,7 +50,7 @@ namespace Core.Application.Services
 
             var result = (from u in users
                           join f in friends
-                          on u.Id equals f.IdFriend
+                          on u.Id equals f.IdFriend 
                           where(f.IdUser == user.Id)
                           select u).ToList();
 
