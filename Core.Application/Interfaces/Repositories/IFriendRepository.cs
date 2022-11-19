@@ -12,5 +12,7 @@ namespace Core.Application.Interfaces.Repositories
     {
         Task<Friends> Add(Friends type);
         Task<List<Friends>> GetAll();
+        Task Delete(Friends friends);
+
     }
 }

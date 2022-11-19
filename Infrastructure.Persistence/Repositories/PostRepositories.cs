@@ -16,5 +16,12 @@ namespace Infrastructure.Persistence.Repositories
         {
             _mediaContext = mediaContext;
         }
+        public async Task<Post> UpdatePost(Post post, int id)
+        {
+            var entry = await _mediaContext.Set<Post>().FindAsync(id);
+            _mediaContext.Entry(entry).CurrentValues.SetValues(post);
+            await _mediaContext.SaveChangesAsync();
+            return post;
+        }
     }
 }

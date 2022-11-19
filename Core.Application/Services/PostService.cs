@@ -35,7 +35,23 @@ namespace Core.Application.Services
             type.UserId = user.Id;
             return await base.Add(type);
         }
-       
+        public async Task<PostSaveViewModel> UpdatePost(PostSaveViewModel type, int id)
+        {
+            type.UserId = user.Id;
+            var post = await _postRepository.GetById(id);
+
+            if(type.File == null)
+            {
+                type.postImg = post.postImg;  
+            }
+
+            Post entity = _mapper.Map<Post>(type);
+            await _postRepository.UpdatePost(entity,id);
+
+            return type;
+        }
+
+
 
         public async Task<List<PostViewModel>> GetAllViewModelWithInclude()
         {

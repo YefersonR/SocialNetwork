@@ -25,7 +25,7 @@ namespace RedSocial.Controllers
             _validateSession = validateSession;
             _upload = new();
         }
-        public IActionResult Index(string message)
+        public IActionResult Index()
         {
             if (_validateSession.HasUser())
             {
@@ -33,7 +33,9 @@ namespace RedSocial.Controllers
                 return RedirectToRoute(new { controller = "Home", action = "Index" });
             }
             User data = TempData["mydata"] as User;
-                return View(data);
+            ViewBag.NotFoundUser = TempData["NotFoundUser"];
+
+            return View(data);
         }
         [HttpPost]
         public async Task<IActionResult> Index(LoginViewModel loginViewModel)
@@ -98,6 +100,22 @@ namespace RedSocial.Controllers
              return RedirectToRoute(new { controller = "User", action = "Index" });
 
         }
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(string UserName)
+        {
+
+            var user = await _userService.ExistUser(UserName);
+            if (!user)
+            {
+                TempData["NotFoundUser"] = "No se encontro el usuario ingresado";
+            }
+            else 
+            {
+                await _userService.ChangePassword(UserName);
+            }
+            return RedirectToAction("Index","User",ViewBag.NotFoundUser);
+        }
+
         public IActionResult LogOut()
         {
             HttpContext.Session.Remove("user");

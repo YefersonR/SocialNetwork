@@ -4,18 +4,47 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="container-fluid">
-    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-    <form method="post" asp-controller="User" asp-action="Index">
-        <div class="mb-3">
-            <label for="" class="form-label">UserName</label>
-            <input class="form-control" asp-for="UserName" placeholder="Type to search...">
-        </div>
-        <div class="mb-3">
-            <label for="" class="form-label">Password</label>
-            <input class="form-control" asp-for="Password" placeholder="Type to search...">
-        </div>
-        <button class="btn btn-primary">Log in</button>
+<div class="container-fluid row">
+    <p class="text-danger text-center">@ViewBag.NotFoundUser</p>
 
+    <form method="post" asp-controller="User" asp-action="Index" class="offset-4 col-4 containerLogin mt-5 p-3">
+        <h2 class="pb-4 text-center">Login</h2>
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        <div class="mb-3">
+            <input class="form-control" asp-for="UserName" placeholder="Username">
+        </div>
+        <div class="mb-3">
+            <input class="form-control" asp-for="Password" placeholder="Password">
+        </div>
+        <div class="d-grid">
+            <button class="btn btn-primary">Log in</button>
+            <a class="text-center text-primary text-decoration-none changePasswordLink" data-bs-toggle="modal" data-bs-target="#changePassword">Change password</a>
+        </div>
     </form>
+    <div class="modal fade " id="changePassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Change password</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Insert your email to change password</p>
+                    <form method="post" asp-controller="User" asp-action="ChangePassword" class="w-100">
+                        <input name="email" type="email" class="form-control" placeholder="Email" />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script>
+    @*@if (ViewBag.NotFoundUser != null)*@
+    //{
+        $("#changePassword").modal('show')
+    //}
+
+</script>

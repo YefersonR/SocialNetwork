@@ -24,9 +24,10 @@ namespace Infrastructure.Persistence.Repositories
             user.Password = PasswordEncrytion.Encriptation(user.Password);
             return await base.Add(user);
         }
-        public override Task Update(User Type, int id)
+        public override Task Update(User user, int id)
         {
-            return base.Update(Type, id);
+            user.Password = PasswordEncrytion.Encriptation(user.Password);
+            return base.Update(user, id);
         }
         public async Task<User> Login(LoginViewModel login)
         {

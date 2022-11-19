@@ -13,5 +13,7 @@ namespace Core.Application.Interfaces.Services
         Task<UserViewModel> Login(LoginViewModel loginViewModel);
         Task ConfirmMail(UserSaveViewModel userVm);
         Task<List<UserViewModel>> SearchFriend(SearchFriendViewModel searchViewModel);
+        Task<bool> ExistUser(string UserName);
+        Task ChangePassword(string UserName);
     }
 }

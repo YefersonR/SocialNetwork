@@ -45,7 +45,7 @@ namespace Infrastructure.Shared.Services
             }
             catch(Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
         }
     }

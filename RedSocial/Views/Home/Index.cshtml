@@ -10,70 +10,104 @@
 @{
     UserViewModel user = httpContext.HttpContext.Session.Get<UserViewModel>("user");
     ViewData["Title"] = "Home Page";
+    bool showComment = false;
 }
 
 <div class="text-center w-50 d-block m-auto">
     @if (user.IsActiveUser)
     {
-
         <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="CreatePost" class="form-floating position-relative " style="margin-bottom:80px;">
-            <textarea asp-for="@Model.postSaveViewModel.Content" class="form-control" rows="10" placeholder="What's Happening?" style="height: 100px; resize: none;"></textarea>
-            <input asp-for="@Model.postSaveViewModel.File" class="primary position-absolute w-50 end-50 mt-2" />
-            <span asp-validation-for="@Model.postSaveViewModel.Content"></span>
-            <button class="btn btn-primary position-absolute w-25 end-0 mt-2">Post</button>
-        </form>
+            <input asp-for="@Model.postSaveViewModel.Content" class="form-control" id="floatingInput" placeholder="What's happening?'" />
+            <label for="floatingInput" class="text-muted p-2">What's happening?</label>
 
-        <div class="text-center d-block m-auto">
-            @foreach (PostViewModel post in Model.postViewModels)
+            <div class="d-flex justify-content-between">
+                <input asp-for="@Model.postSaveViewModel.File" class="mt-2" />
+
+                <button class="btn btn-primary position-absolute w-25 end-0 mt-2">Publish</button>
+            </div>
+
+            <span asp-validation-for="@Model.postSaveViewModel.Content" class="text-danger"></span>
+        </form>
+    <div class="text-center d-block m-auto">
+            @if (Model.postViewModels.Count == 0)
             {
-                <div class="card m-4">
-                    <div class="card-header">
-                        <div class="float-start">
-                            <img src="@post.User.ProfilePicture" style="width:40px;height:40px;border-radius:50%;" />
-                            @post.User.UserName - @post.User.Name @post.User.LastName
+                <h1 class="text-center">Usted no tiene ninguna publicacion</h1>
+            }
+            else
+            {
+                @foreach (PostViewModel post in Model.postViewModels)
+                {
+                    <div class="card m-4">
+                        <div class="p-4">
+                            <div class="float-start">
+                                <img src="@post.User.ProfilePicture" class="pictureprofile" />
+                                <b>@post.User.UserName</b>
+                            </div>
+                            <div class="float-end">
+                                @post.Created.ToShortDateString()
+                            </div>
                         </div>
-                        <div class="float-end">
-                            @post.Created
-                        </div>
-                    </div>
                         <div class="d-flex justify-content-end align-items-center">
-                            <div class="btn-group">
-                                <a asp-controller="Home" asp-action="Delete" asp-route-id="@post.Id" class="btn btn-sm btn-outline-danger">Borrar</a>
+                            <div class="btn-group pe-1 me-3">
+                                <a asp-controller="Home" asp-action="Delete" asp-route-id="@post.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal-@post.Id">
+                                    Edit
+                                </button>
+                            </div>
+                            <div class="modal fade" id="Modal-@post.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Edit" class="form-floating position-relative " style="margin-bottom:80px;">
+                                                <input type="hidden" asp-for="@Model.postSaveViewModel.Id" value="@post.Id" />
+                                                <input asp-for="@Model.postSaveViewModel.Content" class="form-control" id="floatingInput" value="@post.Content" />
+                                                
+                                                <div class="d-flex justify-content-between">
+                                                    <input asp-for="@Model.postSaveViewModel.File" class="mt-2" />
+                                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="card-body">
 
                             <blockquote class="blockquote">
 
-                                <p>@post.Content </p>
+                                <p class="text-start">@post.Content </p>
                                 @if (post.postImg != null && post.postImg != "")
                                 {
-                                    <img src="@post.postImg" class="mx-auto d-block" style="width:400px;height:200px;" />
+                                    <img src="@post.postImg" class="mx-auto d-block" style="width:100%;" />
                                 }
 
 
                             </blockquote>
                         </div>
 
-                    <a class="text-primary" style="cursor:pointer;text-decoration:none;" data-bs-toggle="collapse" data-bs-target="#collapse-@post.Id" aria-expanded="false" aria-controls="collapse-@post.Id">
-                        Ver comentarios
-                    </a>
-                  
-                    <div class="m-2">
-                        <div class="collapse collapse-horizontal" id="collapse-@post.Id">
-                            @foreach (var comment in post.Comments.ToList())
-                            {
-                            <div class="card m-1" style="width: 100%">
-                                <div class="card-header">
-                                    <div class="float-start">
+                        <a class="text-primary d-flex align-items-center justify-content-center" style="cursor:pointer;text-decoration:none;" data-bs-toggle="collapse" data-bs-target="#collapse-@post.Id" aria-expanded="false" aria-controls="collapse-@post.Id">
+                            <i class='bx bxs-comment-detail' style="font-size:15px;">Ver comentarios</i>
+                        </a>
+
+                        <div class="m-2">
+                            <div class="collapse collapse-horizontal" id="collapse-@post.Id">
+                                @foreach (var comment in post.Comments.ToList())
+                                {
+                                    <div class="comments" style="width: 100%">
                                         <img src="@comment.User.ProfilePicture" style="width:40px;height:40px;border-radius:50%;" />
-                                        @comment.User.Name - @comment.User.UserName @comment.User.LastName
+                                        <div class="commentContent">
+                                            <b>@comment.User.UserName</b>
+                                            <p class="card-text">@comment.Content</p>
+                                        </div>
                                     </div>
-                                </div>
-                                    <div class="card-body">
-                                        <p class="card-text">@comment.Content</p>
-                                    </div>
-                                </div>
 
                                 }
 
@@ -83,13 +117,15 @@
                                     <button class="btn btn-primary position-absolute w-25 end-0 mt-2">Post</button>
                                 </form>
                             </div>
+                        </div>
                     </div>
-                </div>
+
+                }
 
             }
-
-
         </div>
+
+        
     }
     else
     {

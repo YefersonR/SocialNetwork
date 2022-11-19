@@ -1,0 +1,96 @@
+﻿body {
+}
+
+.containerLogin{
+    border: none;
+    border-radius:10px;
+    box-shadow: 0 0 2px #272525;
+    
+}
+.ImgProfile {
+     position: relative;
+    border: 4px solid #FFFFFF;
+    transition: all 1s;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+}
+
+.ImgProfile i{
+    font-size:100px;
+}
+
+.PreviewPicture{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+
+.containerLogin input[type='file'] {
+    width: 100px;
+    height: 150px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+.search {
+    background:none;
+    border:none;
+    font-size: 1.3rem;
+}
+.search :hover{
+    cursor:pointer;
+}
+
+.upload{
+    position:relative;
+    margin-top:5px;
+    cursor: pointer;
+}
+.upload :hover {
+}
+.btnUpload {
+   width:150px;
+    border: 1px solid gray;
+    color: gray;
+    background-color: white;
+    padding: 5px 20px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+
+}
+.upload input[type='file'] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /*opacity: 0;*/
+}
+
+.comments{
+    display:flex;
+    justify-content:space-between;
+    width:100px;
+}
+
+.commentContent{
+    margin:5px;
+    padding:10px;
+    border-radius:20px;
+    border-top-left-radius:0;
+    background-color:#f7f7f7;
+    width:90%;
+    text-align:start;
+
+}
+.changePasswordLink:hover{
+    cursor:pointer;
+}
+
+.friends{
+    width:30%;
+}

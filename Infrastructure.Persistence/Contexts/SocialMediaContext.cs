@@ -1,5 +1,8 @@
-﻿using Core.Domain.Commons;
+﻿using Core.Application.Helpers;
+using Core.Application.ViewModels.User;
+using Core.Domain.Commons;
 using Core.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,13 +15,19 @@ namespace Infrastructure.Persistence.Contexts
 {
     public class SocialMediaContext : DbContext
     {
+        private readonly UserViewModel user;
+        private readonly IHttpContextAccessor _httpContext;
         public DbSet<User> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
         public  DbSet<Comment> Comments { get; set; }
 
         public DbSet<Friends> Friends { get; set; }
 
-        public SocialMediaContext(DbContextOptions options) : base(options) { }
+        public SocialMediaContext(DbContextOptions options, IHttpContextAccessor httpContext) : base(options) 
+        {
+            _httpContext = httpContext;
+            user = _httpContext.HttpContext.Session.Get<UserViewModel>("user");
+        }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
         {
             foreach (var entry in ChangeTracker.Entries<AuditableBaseEntity>())
@@ -27,9 +36,17 @@ namespace Infrastructure.Persistence.Contexts
                 {
                     case EntityState.Modified:
                         entry.Entity.Created = DateTime.Now;
-                        entry.Entity.CreatedBy="";
+                        if (user != null)
+                        {
+                            entry.Entity.CreatedBy="Admin";
+                            entry.Entity.UpdatedBy = "Admin";
+                        }
+                        else
+                        {
+                            entry.Entity.CreatedBy = user.UserName;
+                            entry.Entity.UpdatedBy= user.UserName;
+                        }
                         entry.Entity.Updated = DateTime.Now;
-                        entry.Entity.UpdatedBy = "";
                         break;
                 }
             }

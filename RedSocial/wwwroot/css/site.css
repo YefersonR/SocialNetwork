@@ -25,10 +25,11 @@ a {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
-.pictureprofile{
-    width:25px;
-    height:25px;
-    border-radius:50%;
+.pictureprofile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 /* Sticky footer styles
 -------------------------------------------------- */

@@ -35,13 +35,19 @@ namespace Core.Application.Services
             _httpContext = httpContext;
             user = _httpContext.HttpContext.Session.Get<UserViewModel>("user");
 
-
         }
         public async Task Add(FriendSaveViewModel friendViewModel)
         {
             Friends friends = _mapper.Map<Friends>(friendViewModel);
             await _frienRepository.Add(friends);
 
+        }
+        public async Task Delete(int id)
+        {
+            var friends = await _frienRepository.GetAll();
+            var friend = friends.FirstOrDefault(x => x.IdFriend == id && x.IdUser == user.Id);
+            FriendSaveViewModel friendSaveView = _mapper.Map<FriendSaveViewModel>(friend);
+            await _frienRepository.Delete(friend);
         }
         public  async Task<List<UserViewModel>> GetAllViewModels()
         {

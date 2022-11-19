@@ -23,9 +23,15 @@ namespace Infrastructure.Persistence.Repositories
             await _mediaContext.SaveChangesAsync();
             return friends;
         }
+        public async Task Delete(Friends friends)
+        {
+            _mediaContext.Set<Friends>().Remove(friends);
+            await _mediaContext.SaveChangesAsync();
+        }
         public async Task<List<Friends>> GetAll()
         {
             return await _mediaContext.Set<Friends>().ToListAsync();
         }
+        
     }
 }

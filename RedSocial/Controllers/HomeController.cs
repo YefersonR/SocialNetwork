@@ -7,14 +7,8 @@ using Core.Application.ViewModels.Post;
 using Core.Application.ViewModels.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using RedSocial.Middleware;
-using RedSocial.Models;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RedSocial.Controllers
@@ -55,7 +49,7 @@ namespace RedSocial.Controllers
             ViewBag.CreatePost = new PostSaveViewModel();
             if (_validateSession.HasUser())
             {
-                _homeViewModel.postViewModels =  await _postServices.GetAllViewModelWithInclude();
+                _homeViewModel.postViewModels = await _postServices.GetAllViewModelWithInclude();
                 return View(_homeViewModel);
             }
             return RedirectToRoute(new { controller = "User", action = "Index"});
@@ -75,6 +69,7 @@ namespace RedSocial.Controllers
             }
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }
+        [HttpPost]
         public async Task<IActionResult> CreatePost(PostSaveViewModel postSaveViewModel)
         {
             if (ModelState.IsValid)
@@ -127,7 +122,13 @@ namespace RedSocial.Controllers
             await _FriendServices.Add(friendSaveViewModel);
             return RedirectToRoute(new { controller = "Home", action = "Friends" });
         }
-            public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteFriend(int id)
+        {
+            await _FriendServices.Delete(id);
+            return RedirectToRoute(new { controller = "Home", action = "Friends" });
+
+        }
+        public async Task<IActionResult> Delete(int id)
         {
             await _postServices.Delete(id);
             string basePath = $"/Img/Anuncios/${id}";
@@ -150,7 +151,12 @@ namespace RedSocial.Controllers
         }
         public async Task<IActionResult> Edit(PostSaveViewModel postSaveViewModel)
         {
-            await _postServices.Update(postSaveViewModel,postSaveViewModel.Id);
+            var postUpdated = await _postServices.UpdatePost(postSaveViewModel,postSaveViewModel.Id);
+            if(postSaveViewModel.File != null)
+            {
+                postUpdated.postImg = _upload.UploadImage(postSaveViewModel.File, postUpdated.Id, "Posts",true);
+                await _postServices.Update(postUpdated, postUpdated.Id); 
+            }
             return RedirectToRoute(new { controller = "Home", action = "Index"});
         }
     }

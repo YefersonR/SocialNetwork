@@ -10,6 +10,6 @@ namespace Core.Application.Interfaces.Repositories
 {
     public interface IPostRepository :IGenericRepository<Post>
     {
-
+        Task<Post> UpdatePost(Post post, int id);
     }
 }

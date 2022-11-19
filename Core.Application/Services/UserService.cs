@@ -4,13 +4,11 @@ using Core.Application.Interfaces.Repositories;
 using Core.Application.Interfaces.Services;
 using Core.Application.ViewModels.User;
 using Core.Domain.Entities;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 
 namespace Core.Application.Services
 {
@@ -24,6 +22,7 @@ namespace Core.Application.Services
             _userRepository = userRepository;
             _mapper = mapper;
             _emailService = emailService;
+
 
         } 
     public async Task<UserViewModel> Login(LoginViewModel loginViewModel)
@@ -70,7 +69,7 @@ namespace Core.Application.Services
         public async Task<List<UserViewModel>> SearchFriend(SearchFriendViewModel searchViewModel)
         {
             var list = await _userRepository.GetAll();
-            return list.Where(user => user.UserName.ToLower() == searchViewModel.userName.ToLower()).Select(user => new UserViewModel
+            return list.Where(user => user.UserName.ToLower().Contains(searchViewModel.userName.ToLower())).Select(user => new UserViewModel
             {
                 Id = user.Id,
                 Name = user.Name,
@@ -82,6 +81,44 @@ namespace Core.Application.Services
                 Password = user.Password
 
             }).ToList();
+        }
+
+        public async Task ChangePassword(string UserName)
+        {
+            var users = await _userRepository.GetAll();
+            var user = users.FirstOrDefault(u=>u.UserName == UserName);
+            if (user != null)
+            {
+                user.Password = GeneratePassword();
+                await _userRepository.Update(user, user.Id);
+                EmailRequest email = new();
+                email.Subject = "Password changed";
+                email.To = user.Mail;
+                email.Body = $"Your password has been changed! you new password is {user.Password}";
+            }
+        }
+        public async Task<bool> ExistUser(string UserName)
+        {
+            var list = await _userRepository.GetAll();
+            var user = list.FirstOrDefault(user => user.UserName.ToLower() == UserName);
+            if(user != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        public string GeneratePassword()
+        {
+            int length = 12;
+            const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            StringBuilder res = new StringBuilder();
+            Random random = new Random();
+            while (0 < length--)
+            {
+                res.Append(valid[random.Next(valid.Length)]);
+            }
+            return res.ToString();
         }
     }
 }

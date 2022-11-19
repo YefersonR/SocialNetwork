@@ -12,6 +12,7 @@ namespace Core.Application.Interfaces.Services
     public interface IFriendService
     {
         Task Add(FriendSaveViewModel friends);
+        Task Delete(int id);
         Task<List<UserViewModel>> GetAllViewModels();
         Task<List<PostViewModel>> GetAllFriendsViewModels();
 

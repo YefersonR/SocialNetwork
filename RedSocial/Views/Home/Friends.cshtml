@@ -14,43 +14,41 @@
             @foreach (PostViewModel post in Model.postViewModels)
             {
                 <div class="card m-4">
-                    <div class="card-header">
+                    <div class="p-4">
                         <div class="float-start">
-                            <img src="@post.User.ProfilePicture" style="width:40px;height:40px;border-radius:50%;" />
-                            @post.User.UserName - @post.User.Name @post.User.LastName
+                            <img src="@post.User.ProfilePicture" class="pictureprofile" />
+                            <b>@post.User.UserName</b>
                         </div>
                         <div class="float-end">
-                            @post.Created
+                            @post.Created.ToShortDateString()
                         </div>
                     </div>
                     <div class="card-body">
-                        <blockquote class="blockquote">
-                            <p>@post.Content </p>
 
+                        <blockquote class="blockquote">
+
+                            <p class="text-start">@post.Content </p>
                             @if (post.postImg != null && post.postImg != "")
                             {
-                                <img src="@post.postImg" class="mx-auto d-block" style="width:400px;height:200px;" />
+                                <img src="@post.postImg" class="mx-auto d-block" style="width:100%;" />
                             }
+
+
                         </blockquote>
                     </div>
 
-                    <a class="text-primary" style="cursor:pointer;text-decoration:none;" data-bs-toggle="collapse" data-bs-target="#collapse-@post.Id" aria-expanded="false" aria-controls="collapse-@post.Id">
-                        Ver comentarios
+                    <a class="text-primary d-flex align-items-center justify-content-center" style="cursor:pointer;text-decoration:none;" data-bs-toggle="collapse" data-bs-target="#collapse-@post.Id" aria-expanded="false" aria-controls="collapse-@post.Id">
+                        <i class='bx bxs-comment-detail' style="font-size:15px;">Ver comentarios</i>
                     </a>
 
                     <div class="m-2">
                         <div class="collapse collapse-horizontal" id="collapse-@post.Id">
-
                             @foreach (var comment in post.Comments.ToList())
                             {
-                                <div class="card m-1" style="width: 100%">
-                                    <div class="card-header">
-                                        <div class="float-start">
-                                            <img src="@comment.User.ProfilePicture" style="width:40px;height:40px;border-radius:50%;" />
-                                            @comment.User.Name - @comment.User.UserName @comment.User.LastName
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
+                                <div class="comments" style="width: 100%">
+                                    <img src="@comment.User.ProfilePicture" style="width:40px;height:40px;border-radius:50%;" />
+                                    <div class="commentContent">
+                                        <b>@comment.User.UserName</b>
                                         <p class="card-text">@comment.Content</p>
                                     </div>
                                 </div>
@@ -71,17 +69,17 @@
 
         </div>
     </div>
-    <div>
-        <form method="post" asp-controller="Home" asp-action="Search" class="w-100">
-            <input name="Username" class="form-control" placeholder="Search" />
-        </form>
+    <div class="friends">
         <div class="m-3">
-            <h2>Amigos</h2>
+            <h2>Friends</h2>
             @foreach(UserViewModel friend in Model.friendsViewModels)
             {
-                <div class="m-1">
-                    <img src="@friend.ProfilePicture" style="width:40px;height:40px;border-radius:50%;" />
-                    @friend.UserName - @friend.Name @friend.LastName
+                <div class="m-1 d-flex justify-content-around align-items-center">
+                    <div>
+                        <img src="@friend.ProfilePicture" style="width:40px;height:40px;border-radius:50%;" />
+                        @friend.UserName - @friend.Name @friend.LastName
+                    </div>
+                    <a asp-controller="Home" asp-action="DeleteFriend" asp-route-id="@friend.Id" class="text-danger text-decoration-none">Delete</a>
                 </div>
             }
         </div>
