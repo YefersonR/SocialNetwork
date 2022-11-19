@@ -90,17 +90,20 @@ namespace Core.Application.Services
             if (user != null)
             {
                 user.Password = GeneratePassword();
+                var pass = user.Password;
                 await _userRepository.Update(user, user.Id);
                 EmailRequest email = new();
                 email.Subject = "Password changed";
                 email.To = user.Mail;
-                email.Body = $"Your password has been changed! you new password is {user.Password}";
+                email.Body = $"Your password has been changed! you new password is {pass}";
+                await _emailService.SendEmail(email);
+
             }
         }
         public async Task<bool> ExistUser(string UserName)
         {
             var list = await _userRepository.GetAll();
-            var user = list.FirstOrDefault(user => user.UserName.ToLower() == UserName);
+            var user = list.FirstOrDefault(user => user.UserName == UserName);
             if(user != null)
             {
                 return true;

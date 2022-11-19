@@ -36,7 +36,7 @@ namespace Infrastructure.Persistence.Contexts
                 {
                     case EntityState.Modified:
                         entry.Entity.Created = DateTime.Now;
-                        if (user != null)
+                        if (user == null)
                         {
                             entry.Entity.CreatedBy="Admin";
                             entry.Entity.UpdatedBy = "Admin";

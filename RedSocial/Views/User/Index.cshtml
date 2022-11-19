@@ -5,7 +5,7 @@
 }
 
 <div class="container-fluid row">
-    <p class="text-danger text-center">@ViewBag.NotFoundUser</p>
+    <p class="text-danger text-center">@ViewBag.changePass</p>
 
     <form method="post" asp-controller="User" asp-action="Index" class="offset-4 col-4 containerLogin mt-5 p-3">
         <h2 class="pb-4 text-center">Login</h2>
@@ -29,9 +29,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Insert your email to change password</p>
+                    <p>Insert your username to change password</p>
                     <form method="post" asp-controller="User" asp-action="ChangePassword" class="w-100">
-                        <input name="email" type="email" class="form-control" placeholder="Email" />
+                        <input name="userName" class="form-control" placeholder="Email" />
                     </form>
                 </div>
                 <div class="modal-footer">

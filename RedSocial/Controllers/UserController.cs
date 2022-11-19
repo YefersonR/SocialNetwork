@@ -29,11 +29,10 @@ namespace RedSocial.Controllers
         {
             if (_validateSession.HasUser())
             {
-
                 return RedirectToRoute(new { controller = "Home", action = "Index" });
             }
             User data = TempData["mydata"] as User;
-            ViewBag.NotFoundUser = TempData["NotFoundUser"];
+            ViewBag.changePass = TempData["MessageIndex"];
 
             return View(data);
         }
@@ -107,10 +106,11 @@ namespace RedSocial.Controllers
             var user = await _userService.ExistUser(UserName);
             if (!user)
             {
-                TempData["NotFoundUser"] = "No se encontro el usuario ingresado";
+                TempData["MessageIndex"] = "No se encontro el usuario ingresado";
             }
             else 
             {
+                TempData["MessageIndex"] = "Su nueva contraseña se encuentra en su correo";
                 await _userService.ChangePassword(UserName);
             }
             return RedirectToAction("Index","User",ViewBag.NotFoundUser);
