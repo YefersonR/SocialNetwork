@@ -26,7 +26,7 @@ namespace Infrastructure.Persistence.Contexts
         public SocialMediaContext(DbContextOptions options, IHttpContextAccessor httpContext) : base(options) 
         {
             _httpContext = httpContext;
-            user = _httpContext.HttpContext.Session.Get<UserViewModel>("user");
+            //user = _httpContext.HttpContext.Session.Get<UserViewModel>("user");
         }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
         {
